@@ -1,7 +1,6 @@
 #include <iostream>
 
 using namespace std;
-
 struct Student
 {
     string name;
@@ -15,61 +14,107 @@ struct Student
 void addStudent(Student *&head);
 bool deletestudent(Student *&head);
 Student *searchStudent(Student *head);
-bool updateStudent(Student *head, int studentID, int newUnits, float newGPA);
+bool updateStudent(Student *head);
 void displayAllRecords(Student *head);
-
-// void addStudent(Student *&head, const string &name, int studentID, int units, float gpa, const string &securityCode);
-// bool deletestudent(Student *&head, int studentID);
-// Student *searchStudent(Student *head, int studentID);
-// bool updateStudent(Student *head, int studentID, int newUnits, float newGPA);
-// void displayAllRecords(Student *head);
 
 int main()
 {
     Student *student = nullptr;
 
-    cout << "hello alleykom" << endl;
+    cout << "Hello Alleykom" << endl;
 
     while (true)
     {
         int n = 0;
         bool exit = false;
-        cout << "choose of the function:";
-        cout << "add student: (1)";
-        cout << "delete student: (2)";
-        cout << "search student: (3)";
-        cout << "update student: (4)";
-        cout << "display all records: (5)";
-        cout << "exit: (-1)";
+        cout << "choose of the function :" << endl;
+        cout << "add student:         (1)" << endl;
+        cout << "delete student:      (2)" << endl;
+        cout << "search student:      (3)" << endl;
+        cout << "update student:      (4)" << endl;
+        cout << "display all records: (5)" << endl;
+        cout << "exit:               (-1)" << endl;
+
         cin >> n;
+
         switch (n)
         {
         case 1:
+        {
             addStudent(student);
             break;
+        }
 
         case 2:
-            bool deletestudent(student);
+        {
+            if (deletestudent(student))
+            {
+                cout << "--------------------------------" << endl;
+                cout << "delete student succesfully" << endl;
+                cout << "--------------------------------" << endl;
+            }
+            else
+            {
+                cout << "--------------------------------" << endl;
+                cout << "delete student Unsuccesfully" << endl;
+                cout << "--------------------------------" << endl;
+            }
+
             break;
+        }
 
         case 3:
-            Student *searchStudent(student); // نکته داره این . فرق ارجاع پونتر با رفرنس و ارجاع پوینتر
-            // ??????????????????????
+        {
+            Student *stu = searchStudent(student);
+
+            if (stu != nullptr)
+            {
+                cout << "--------------------------------" << endl;
+                cout << "student found" << endl;
+                cout << "name: " << stu->name << endl;
+                cout << "id: " << stu->studentID << endl;
+                cout << "units: " << stu->units << endl;
+                cout << "gpa: " << stu->gpa << endl;
+                cout << "security code: " << stu->securityCode << endl;
+                cout << "--------------------------------" << endl;
+            }
+            else
+            {
+                cout << "--------------------------------" << endl;
+                cout << "student not found!" << endl;
+                cout << "--------------------------------" << endl;
+            }
             break;
+        }
 
         case 4:
-            bool updateStudent(Student * head, int studentID, int newUnits, float newGPA);
+        {
+            if (updateStudent(student))
+            {
+                cout << "--------------------------------" << endl;
+                cout << "update student succesfully" << endl;
+                cout << "--------------------------------" << endl;
+            }
+            else
+            {
+                cout << "--------------------------------" << endl;
+                cout << "update student Unsuccesfully" << endl;
+                cout << "--------------------------------" << endl;
+            }
 
             break;
+        }
 
         case 5:
-            void displayAllRecords(Student * head);
-
+        {
+            displayAllRecords(student);
             break;
-
+        }
         case -1:
+        {
             exit = true;
             break;
+        }
 
         default:
             break;
@@ -84,16 +129,27 @@ int main()
 void addStudent(Student *&head)
 {
     Student *newstu = new Student;
+    cout << "--------------------------------" << endl;
+    cout << " inter the name:" << endl;
     cin >> newstu->name;
+    cout << " inter the student id:" << endl;
     cin >> newstu->studentID;
+    cout << " inter the units:" << endl;
     cin >> newstu->units;
+    cout << " inter the gpa:" << endl;
     cin >> newstu->gpa;
+    cout << " inter the security code:" << endl;
     cin >> newstu->securityCode;
     newstu->next = nullptr;
 
-    if (head->next == nullptr)
+    if (head == nullptr)
     {
         head = newstu;
+        cout << "--------------------------------" << endl;
+        cout << "add student succesfully" << endl;
+        cout << "--------------------------------" << endl;
+
+        return;
     }
     Student *temp = head;
     while (temp->next != nullptr)
@@ -101,17 +157,19 @@ void addStudent(Student *&head)
         temp = temp->next;
     }
     temp->next = newstu;
+    cout << "--------------------------------" << endl;
+    cout << "add student succesfully" << endl;
+    cout << "--------------------------------" << endl;
 }
 bool deletestudent(Student *&head)
 {
     int studentid = 0;
+    cout << "--------------------------------" << endl;
+    cout << " inter the student id:" << endl;
     cin >> studentid;
 
     if (head == nullptr)
         return false;
-
-    // ????????????????
-    // ????????????????
 
     Student *temp = head;
     while (temp->studentID != studentid && temp->next != nullptr)
@@ -142,7 +200,10 @@ bool deletestudent(Student *&head)
 Student *searchStudent(Student *head)
 {
     int studentid = 0;
+    cout << "--------------------------------" << endl;
+    cout << " inter the student id:" << endl;
     cin >> studentid;
+
     Student *temp = head;
     while (temp->studentID != studentid && temp->next != nullptr)
     {
@@ -157,9 +218,55 @@ Student *searchStudent(Student *head)
         return nullptr;
     }
 }
-bool updateStudent(Student *head, int studentID, int newUnits, float newGPA)
+bool updateStudent(Student *head)
 {
+    int studentid = 0;
+
+    if (head == nullptr)
+        return false;
+
+    cout << "--------------------------------" << endl;
+    cout << " inter the student id:" << endl;
+    cin >> studentid;
+
+    Student *temp = head;
+    while (temp->studentID != studentid && temp->next != nullptr)
+    {
+        temp = temp->next;
+    }
+    if (temp->studentID == studentid)
+    {
+        cout << "--------------------------------" << endl;
+        cout << " inter the student new gpa:" << endl;
+        cin >> temp->gpa;
+        cout << " inter the student new units:" << endl;
+        cin >> temp->units;
+
+        return true;
+    }
+    return false;
 }
 void displayAllRecords(Student *head)
 {
+    if (head == nullptr)
+    {
+        cout << "--------------------------------" << endl;
+        cout << " list of files is empty" << endl;
+        return;
+    }
+    Student *temp = head;
+    int i = 0;
+    while (temp != nullptr)
+    {
+        cout << "----------------------------------------" << endl;
+        cout << "name of student [" << i << "] : " << temp->name << endl;
+        cout << "student id of student [" << i << "] : " << temp->studentID << endl;
+        cout << "units of student [" << i << "] : " << temp->units << endl;
+        cout << "gpa of student [" << i << "] : " << temp->gpa << endl;
+        cout << "security code of student [" << i << "] : " << temp->securityCode << endl;
+        cout << "----------------------------------------" << endl;
+
+        temp = temp->next;
+        i++;
+    }
 }
