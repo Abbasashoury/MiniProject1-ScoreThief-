@@ -130,15 +130,15 @@ void addStudent(Student *&head)
 {
     Student *newstu = new Student;
     cout << "--------------------------------" << endl;
-    cout << " inter the name:" << endl;
+    cout << " enter the name:" << endl;
     cin >> newstu->name;
-    cout << " inter the student id:" << endl;
+    cout << " enter the student id:" << endl;
     cin >> newstu->studentID;
-    cout << " inter the units:" << endl;
+    cout << " enter the units:" << endl;
     cin >> newstu->units;
-    cout << " inter the gpa:" << endl;
+    cout << " enter the gpa:" << endl;
     cin >> newstu->gpa;
-    cout << " inter the security code:" << endl;
+    cout << " enter the security code:" << endl;
     cin >> newstu->securityCode;
     newstu->next = nullptr;
 
@@ -165,11 +165,19 @@ bool deletestudent(Student *&head)
 {
     int studentid = 0;
     cout << "--------------------------------" << endl;
-    cout << " inter the student id:" << endl;
+    cout << " enter the student id:" << endl;
     cin >> studentid;
 
     if (head == nullptr)
         return false;
+
+    if (head->studentID == studentid)
+    {
+        Student *temp = head;
+        head = head->next;
+        delete temp;
+        return true;
+    }
 
     Student *temp = head;
     while (temp->studentID != studentid && temp->next != nullptr)
@@ -179,14 +187,14 @@ bool deletestudent(Student *&head)
     if (temp->studentID == studentid)
     {
         Student *temp2 = head;
-        while (temp2->next != &*temp && temp2->next != nullptr) // or *&
+        while (temp2->next != temp && temp2->next != nullptr)
         {
             temp2 = temp2->next;
         }
 
-        if (temp2->next == &*temp)
+        if (temp2->next == temp)
         {
-            temp2 = temp->next;
+            temp2->next = temp->next;
             delete temp;
         }
 
@@ -201,15 +209,15 @@ Student *searchStudent(Student *head)
 {
     int studentid = 0;
     cout << "--------------------------------" << endl;
-    cout << " inter the student id:" << endl;
+    cout << " enter the student id:" << endl;
     cin >> studentid;
 
     Student *temp = head;
-    while (temp->studentID != studentid && temp->next != nullptr)
+    while (temp != nullptr && temp->studentID != studentid)
     {
         temp = temp->next;
     }
-    if (temp->studentID == studentid)
+    if (temp != nullptr && temp->studentID == studentid)
     {
         return temp;
     }
@@ -226,20 +234,20 @@ bool updateStudent(Student *head)
         return false;
 
     cout << "--------------------------------" << endl;
-    cout << " inter the student id:" << endl;
+    cout << " enter the student id:" << endl;
     cin >> studentid;
 
     Student *temp = head;
-    while (temp->studentID != studentid && temp->next != nullptr)
+    while (temp != nullptr && temp->studentID != studentid)
     {
         temp = temp->next;
     }
-    if (temp->studentID == studentid)
+    if (temp != nullptr && temp->studentID == studentid)
     {
         cout << "--------------------------------" << endl;
-        cout << " inter the student new gpa:" << endl;
+        cout << " enter the student new gpa:" << endl;
         cin >> temp->gpa;
-        cout << " inter the student new units:" << endl;
+        cout << " enter the student new units:" << endl;
         cin >> temp->units;
 
         return true;
